@@ -6,7 +6,11 @@ namespace PrivateLibrary.Models
     {
         [Key]
         public int AuthorId { get; set; }
+
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
+
+        [Display(Name = "Bio")]
         public string Bio { get; set; }
 
         //Relationships
