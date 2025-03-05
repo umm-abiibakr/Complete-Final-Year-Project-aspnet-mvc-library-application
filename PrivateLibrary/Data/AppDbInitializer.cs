@@ -104,26 +104,33 @@ public class AppDbInitializer
             // Books_Authors relationships
             if (!context.Books_Authors.Any())
             {
-                context.Books_Authors.AddRange(new List<Book_Author>()
-                {
-                    new Book_Author()
-                    {
-                        AuthorId = 1,
-                        BookId = 1
-                    },
-                    new Book_Author()
-                    {
-                        AuthorId = 1,
-                        BookId = 2
-                    },
-                    new Book_Author()
-                    {
-                        AuthorId = 1,
-                        BookId = 3
-                    }
-                });
+                // Fetch the actual BookId values after saving books
+                var bookIds = context.Books.Select(b => b.BookId).ToList();
+                var authorId = context.Authors.FirstOrDefault(a => a.FullName == "Ibnul Qayyim")?.AuthorId;
 
-                context.SaveChanges();
+                if (bookIds.Any() && authorId != null)
+                {
+                    context.Books_Authors.AddRange(new List<Book_Author>()
+                    {
+                        new Book_Author()
+                        {
+                            AuthorId = authorId.Value, // Use the actual AuthorId
+                            BookId = bookIds[0]  // Use the actual BookId
+                        },
+                        new Book_Author()
+                        {
+                            AuthorId = authorId.Value,
+                            BookId = bookIds[1]  // Use the actual BookId
+                        },
+                        new Book_Author()
+                        {
+                            AuthorId = authorId.Value,
+                            BookId = bookIds[2]  // Use the actual BookId
+                        }
+                    });
+
+                    context.SaveChanges();
+                }
             }
         }
     }
