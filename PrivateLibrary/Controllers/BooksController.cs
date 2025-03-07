@@ -13,7 +13,7 @@ namespace PrivateLibrary.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var allBooks = await _context.Books.ToListAsync();
+            var allBooks = await _context.Books.OrderBy(n => n.Title).ToListAsync();
             return View(allBooks);
         }
     }
