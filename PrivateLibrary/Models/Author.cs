@@ -8,12 +8,15 @@ namespace PrivateLibrary.Models
         public int AuthorId { get; set; }
 
         [Display(Name = "Full Name")]
-        public string FullName { get; set; }
+        [Required(ErrorMessage = "Full Name is required")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage ="Full Name must be between 5 and 50")]
+        public required string FullName { get; set; }
 
         [Display(Name = "Bio")]
-        public string Bio { get; set; }
+        [Required(ErrorMessage = "Biography is required")]
+        public required string Bio { get; set; }
 
         //Relationships
-        public  List<Book_Author> Books_Authors { get; set; }
+        public  List<Book_Author>? Books_Authors { get; set; }
     }
 }

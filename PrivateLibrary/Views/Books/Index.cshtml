@@ -1,40 +1,63 @@
-﻿@*Define model*@
-@model IEnumerable<Book>
+﻿@model IEnumerable<Book>
+
 @{
     ViewData["Title"] = "List of Books";
 }
 
 <div class="row">
-    <div class="col-md-8 8 offset-md-2">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-6 border border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info">
+                            <p class="card-text">
+                                <h5 class="book-title">
+                                    @item.Title
+                                    <a class="card-white float-right">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </h5>
+                            </p>
 
-        <table class="table">
-            <thead>
-                <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.ImageUrl)</th>
-                    <th>@Html.DisplayNameFor(model => model.Title)</th>
-                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.ImageUrl" width="100%" alt="@item.Title">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">@item.Description</p>
+                            <p class="card-text"><b>Category: </b>@item.BookCategory</p>
+                            <p class="card-text">
+                                <b>Status: </b>
+                                @if (item.Status)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                else
+                                {
+                                <span class="badge bg-primary text-white">BORROWED</span>
+                                }
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="align-middle">
-                            <img class="rounded-circle" src="@item.ImageUrl" alt="@item.Title" style="max-width: 150px" />
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-
-    </div>
-
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right">
+                                    <i class="bi bi-eye-fill"></i> Show Details
+                                </a>
+                                <a class="btn btn-success text-white">
+                                    <i class="bi borrow-plus"></i> Borrow 
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
