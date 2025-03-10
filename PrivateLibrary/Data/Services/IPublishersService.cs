@@ -3,9 +3,7 @@ using PrivateLibrary.Models;
 
 namespace PrivateLibrary.Data.Services
 {
-    public interface IAuthorsService:IEntityBaseRepository<Author>
+    public interface IPublishersService : IEntityBaseRepository<Publisher>
     {
-       
     }
-
 }

@@ -15,7 +15,7 @@ namespace PrivateLibrary.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var data = await _service.GetAll();
+            var data = await _service.GetAllAsync();
             return View(data);
         }
 
@@ -32,15 +32,80 @@ namespace PrivateLibrary.Controllers
             {
                 foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    Console.WriteLine(error.ErrorMessage); // Debugging validation errors
+                    Console.WriteLine(error.ErrorMessage); 
                 }
                 return View(author);
             }
 
-            await _service.Add(author); // This should now work
+            await _service.AddAsync(author); 
             return RedirectToAction(nameof(Index));
         }
 
+        //get request to get Id
+        public async Task<IActionResult> Details(int authorId)
+        {
+            //check if id exists
+            var authorDetails = await _service.GetByIdAsync(authorId);
+
+            //check if details is null
+            if (authorDetails == null) return View("Not Found");
+
+            return View(authorDetails);
+        }
+
+       
+        // GET: Edit Author
+        public async Task<IActionResult> Edit(int authorId)
+        {
+            var authorDetails = await _service.GetByIdAsync(authorId);
+
+            // Check if details are null
+            if (authorDetails == null) return View("Not Found"); 
+
+            return View(authorDetails);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([Bind("AuthorId,FullName,Bio")] Author author)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(author);
+            }
+
+            await _service.UpdateAsync(author.AuthorId, author);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Delete Author
+        public async Task<IActionResult> Delete(int authorId)
+        {
+            var authorDetails = await _service.GetByIdAsync(authorId);
+
+            // Check if details are null
+            if (authorDetails == null) return View("Not Found");
+
+            return View(authorDetails);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int authorId)
+        {
+            var authorDetails = await _service.GetByIdAsync(authorId);
+
+            // Check if details are null
+            if (authorDetails == null) return NotFound();
+
+            await _service.DeleteAsync(authorId);
+
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }

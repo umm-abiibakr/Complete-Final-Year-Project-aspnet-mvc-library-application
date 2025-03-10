@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PrivateLibrary.Data.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrivateLibrary.Models
 {
-    public class Author
+    public class Author : IEntityBase
     {
         [Key]
         public int AuthorId { get; set; }

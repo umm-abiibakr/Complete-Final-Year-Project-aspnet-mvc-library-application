@@ -1,19 +1,18 @@
-﻿@*Define model*@
-@model IEnumerable<Author>
+﻿@model IEnumerable<Author>
 @{
     ViewData["Title"] = "List of Authors";
 }
 
 <div class="row">
-    <div class="col-md-8 8 offset-md-2">
+    <div class="col-md-8 offset-md-2">
+        <!-- Fixed extra '8' -->
 
         <table class="table">
             <thead>
                 <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.FullName)</th>
-                    <th>@Html.DisplayNameFor(model => model.Bio)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Bio)</th>
                     <th>Actions</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -27,18 +26,22 @@
                             @Html.DisplayFor(modelItem => item.Bio)
                         </td>
                         <td class="align-middle">
-                            <a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit</a> |
-                            <a class="btn btn-outline-info"><i class="bi bi-eye"></i>Details</a> |
-                            <a class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
+                            <a class="btn btn-outline-primary" asp-action="Edit" asp-route-authorId="@item.AuthorId">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a> |
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-authorId="@item.AuthorId">
+                                <i class="bi bi-eye"></i> Details
+                            </a> |
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-authorId="@item.AuthorId">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
                         </td>
                     </tr>
                 }
             </tbody>
-
         </table>
 
     </div>
-
 </div>
 
 <div style="position:fixed; right:25px; bottom:75px; z-index:1050;">
@@ -47,4 +50,3 @@
         <i class="bi bi-plus-circle"></i> Add New
     </a>
 </div>
-
