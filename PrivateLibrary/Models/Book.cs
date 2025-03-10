@@ -1,10 +1,11 @@
-﻿using PrivateLibrary.Data.Enums;
+﻿using PrivateLibrary.Data.Base;
+using PrivateLibrary.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PrivateLibrary.Models
 {
-    public class Book
+    public class Book : IEntityBase
     {
         [Key]
         public int BookId { get; set; }

@@ -1,0 +1,40 @@
+﻿@model Publisher
+
+@{
+    ViewData["Title"] = "Delete Publisher";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Delete confirmation @Model.Name</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <div class="form-group">
+                    <label asp-for="LogoUrl" class="control-label"></label>
+                    <input asp-for="LogoUrl" class="form-control" readonly />
+                    <span asp-validation-for="LogoUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" readonly />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Location" class="control-label"></label>
+                    <input asp-for="Location" class="form-control" readonly />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <form asp-action="DeleteConfirmed">
+                        <input type="hidden" asp-for="PublisherId"/>
+                        <input type="submit" value="Confirm" class="btn btn-danger float-right"/>
+                    </form>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
