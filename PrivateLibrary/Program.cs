@@ -15,6 +15,7 @@ builder.Services.AddTransient<AppDbInitializer>();
 
 //configure services
 builder.Services.AddScoped<IAuthorsService, AuthorsService>();
+builder.Services.AddScoped<IPublishersService, PublishersService>();
 
 builder.Services.AddControllersWithViews();
 
