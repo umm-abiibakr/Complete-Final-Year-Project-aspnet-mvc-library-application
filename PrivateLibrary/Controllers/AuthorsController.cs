@@ -42,18 +42,19 @@ namespace PrivateLibrary.Controllers
         }
 
         //get request to get Id
-        public async Task<IActionResult> Details(int authorId)
+        public async Task<IActionResult> Details(int id)  // Change 'authorId' to 'id'
         {
-            //check if id exists
-            var authorDetails = await _service.GetByIdAsync(authorId);
+            // Check if id exists
+            var authorDetails = await _service.GetByIdAsync(id);
 
-            //check if details is null
+            // Check if details are null
             if (authorDetails == null) return View("Not Found");
 
             return View(authorDetails);
         }
 
-       
+
+
         // GET: Edit Author
         public async Task<IActionResult> Edit(int authorId)
         {
