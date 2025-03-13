@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PrivateLibrary.Data;
 using PrivateLibrary.Data.Services;
 using PrivateLibrary.Models;
+using System.Collections.Generic;
 
 namespace PrivateLibrary.Controllers
 {
@@ -27,26 +29,48 @@ namespace PrivateLibrary.Controllers
         }
 
         // GET: Books/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Description = "Welcome to my Library";
-            return View();
+            var bookDropdownsData = await _service.GetNewBookDropdownsValues();
+
+            if (!bookDropdownsData.Publishers.Any() || !bookDropdownsData.Authors.Any())
+            {
+                ViewBag.ErrorMessage = "No authors or publishers available. Please add them first.";
+                return View();
+            }
+
+            var model = new NewBookVM
+            {
+                PublisherList = bookDropdownsData.Publishers
+                                  .Select(p => new SelectListItem { Value = p.PublisherId.ToString(), Text = p.Name }),
+                AuthorList = bookDropdownsData.Authors
+                                  .Select(a => new SelectListItem { Value = a.AuthorId.ToString(), Text = a.FullName })
+            };
+
+            return View(model);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Create([Bind("Name,Location,LogoUrl")] Publisher publisher)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-        //        {
-        //            Console.WriteLine(error.ErrorMessage);
-        //        }
-        //        return View(publisher);
-        //    }
+        // POST: Books/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(NewBookVM book)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Repopulate dropdowns when validation fails
+                var bookDropdownsData = await _service.GetNewBookDropdownsValues();
+                book.PublisherList = bookDropdownsData.Publishers
+                    .Select(p => new SelectListItem { Value = p.PublisherId.ToString(), Text = p.Name });
+                book.AuthorList = bookDropdownsData.Authors
+                    .Select(a => new SelectListItem { Value = a.AuthorId.ToString(), Text = a.FullName });
 
-        //    await _service.AddAsync(publisher);
-        //    return RedirectToAction(nameof(Index));
-        //}
+                return View(book);
+            }
+
+            await _service.AddNewBookAsync(book);
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

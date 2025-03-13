@@ -16,6 +16,7 @@ namespace PrivateLibrary.Models
         public string ImageUrl { get; set; }
         public  bool Status { get; set; }
         public BookCategory BookCategory { get; set; }
+        public Language Language { get; set; }
 
         //Relationships
         public List<Book_Author> Books_Authors { get; set; }
