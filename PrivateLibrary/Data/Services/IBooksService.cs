@@ -10,5 +10,8 @@ namespace PrivateLibrary.Data.Services
         Task<NewBookDropdownsVM> GetNewBookDropdownsValues();
 
         Task AddNewBookAsync(NewBookVM newBook);
+
+        Task UpdateBookAsync(NewBookVM newBook);
+
     }
 }

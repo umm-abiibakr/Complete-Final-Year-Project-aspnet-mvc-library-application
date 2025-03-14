@@ -6,6 +6,7 @@ namespace PrivateLibrary.Models
 {
     public class NewBookVM
     {
+        public int BookId { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
 
