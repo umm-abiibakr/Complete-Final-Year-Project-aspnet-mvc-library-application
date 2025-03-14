@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PrivateLibrary.Data.Base;
+using PrivateLibrary.Data.Enums;
 using PrivateLibrary.Data.ViewModels;
 using PrivateLibrary.Models;
 
@@ -61,6 +62,38 @@ namespace PrivateLibrary.Data.Services
             };
         }
 
+        public async Task UpdateBookAsync(NewBookVM newBook)
+        {
+            // Load the book including its authors to maintain EF Core tracking
+            var dbBook = await _context.Books
+                .Include(b => b.Books_Authors)
+                .FirstOrDefaultAsync(n => n.BookId == newBook.BookId);
+
+            if (dbBook == null) return; // Stop execution if the book is not found
+
+            // Update book properties
+            dbBook.Title = newBook.Title;
+            dbBook.Description = newBook.Description;
+            dbBook.ImageUrl = newBook.ImageUrl;
+            dbBook.Status = newBook.Status;
+            dbBook.BookCategory = newBook.BookCategory;
+            dbBook.Language = newBook.Language;
+            dbBook.PublisherId = newBook.PublisherId;
+
+            // Remove existing authors
+            _context.Books_Authors.RemoveRange(dbBook.Books_Authors);
+
+            // Add the new authors
+            dbBook.Books_Authors = newBook.AuthorIds
+                .Select(authorId => new Book_Author { BookId = dbBook.BookId, AuthorId = authorId })
+                .ToList();
+
+            // Save changes once
+            await _context.SaveChangesAsync();
+        }
+
+
     }
+
 }
 
