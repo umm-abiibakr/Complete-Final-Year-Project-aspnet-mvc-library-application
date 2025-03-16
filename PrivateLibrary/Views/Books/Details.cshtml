@@ -27,7 +27,7 @@
                         <p class="card-text">@Model.Description</p>
                         <p class="card-text">
                             <b>Publisher: </b>
-                            <a asp-controller="Publishers" asp-action="Details" asp-route-id="@Model.PublisherId">
+                            <a asp-controller="Publishers" asp-action="Details" asp-route-publisherId="@Model.PublisherId">
                                 @Model.Publisher.Name
                             </a>
                         </p>
@@ -51,7 +51,7 @@
                                 @foreach (var item in Model.Books_Authors)
                                 {
                                     <div class="column text-center">
-                                        <a asp-controller="Authors" asp-action="Details" asp-route-id="@item.Author.AuthorId">
+                                        <a asp-controller="Authors" asp-action="Details" asp-route-authorId="@item.Author.AuthorId">
                                             @item.Author.FullName
                                         </a>
                                     </div>
@@ -67,9 +67,9 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Index">
                                     Back to List
                                 </a>
-                                <a class="btn btn-success text-white">
-                                    <i class="bi borrow-plus"></i> Borrow
-                                </a>
+                            <a asp-controller="Loans" asp-action="LoanCart" asp-route-id="@Model.BookId" class="btn btn-success text-white">
+                                <i class="bi bi-plus"></i> Borrow
+                            </a>
                             </p>
                         </div>
                     </div>

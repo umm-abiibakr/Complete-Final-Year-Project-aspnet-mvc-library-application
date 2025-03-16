@@ -1,0 +1,41 @@
+﻿<h2>Your Loan Cart</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Loan Cart ID</th>
+            <th>Books</th>
+            <th>Due Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="align-middle">
+                @(Model.LoanCart != null && !string.IsNullOrEmpty(Model.LoanCart.LoanCartId) ? Model.LoanCart.LoanCartId : "No Loan Cart ID")
+            </td>
+            <td class="align-middle">
+                @if (Model.LoanCartItems != null && Model.LoanCartItems.Count > 0)
+                {
+                    <ul style="list-style-type:none">
+                        @foreach (var item in Model.LoanCartItems)
+                        {
+                            <li>
+                                <div class="alert alert-info" role="alert">
+                                    <span class="badge bg-success">@item.Quantity</span> - @item.Book.Title
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>You have no books in your cart.</p>
+                }
+            </td>
+
+
+            <td class="align-middle">@Model.DueDate.ToString("d")</td>
+        </tr>
+        <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Add a New Item</a>
+    </tbody>
+</table>
