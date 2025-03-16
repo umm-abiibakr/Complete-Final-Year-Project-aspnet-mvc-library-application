@@ -50,8 +50,8 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-bookId="@item.BookId">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <a class="btn btn-success text-white">
-                                    <i class="bi borrow-plus"></i> Borrow 
+                                <a asp-controller="Loans" asp-action="LoanCart" asp-route-id="@item.BookId" class=" btn btn-success text-white">
+                                    <i class="bi bi-plus"></i> Borrow
                                 </a>
                             </p>
                         </div>

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PrivateLibrary.Data;
+using PrivateLibrary.Data.Cart;
 using PrivateLibrary.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,15 @@ builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IPublishersService, PublishersService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 
+//configure http context accessor
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sp => LoanCart.GetLoanCart(sp));
+
+
+
+builder.Services.AddSession();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -32,7 +42,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();

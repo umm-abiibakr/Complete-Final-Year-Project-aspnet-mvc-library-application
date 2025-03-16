@@ -35,5 +35,12 @@ namespace PrivateLibrary.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Book_Author> Books_Authors { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
+
+        
+
+        //Loan related tables
+        public DbSet<Loan> Loans { get; set; }
+        public DbSet<LoanItem> LoanItems { get; set; }
+        public DbSet<LoanCartItem> LoanCartItems { get; set; }
     }
 }

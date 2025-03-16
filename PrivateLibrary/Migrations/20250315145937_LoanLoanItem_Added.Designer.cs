@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrivateLibrary.Data;
 
@@ -10,9 +11,11 @@ using PrivateLibrary.Data;
 namespace PrivateLibrary.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315145937_LoanLoanItem_Added")]
+    partial class LoanLoanItem_Added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,31 +121,6 @@ namespace PrivateLibrary.Migrations
                     b.ToTable("Loans");
                 });
 
-            modelBuilder.Entity("PrivateLibrary.Models.LoanCartItem", b =>
-                {
-                    b.Property<int>("LoanItemCartId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanItemCartId"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LoanCartId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("LoanItemCartId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("LoanCartItems");
-                });
-
             modelBuilder.Entity("PrivateLibrary.Models.LoanItem", b =>
                 {
                     b.Property<int>("LoanItemId")
@@ -221,17 +199,6 @@ namespace PrivateLibrary.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("PrivateLibrary.Models.LoanCartItem", b =>
-                {
-                    b.HasOne("PrivateLibrary.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Book");
                 });

@@ -21,9 +21,9 @@ namespace PrivateLibrary.Controllers
         }
 
         //Get publisher details
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int publisherId)
         {
-            var publisherDetails = await _service.GetByIdAsync(id);
+            var publisherDetails = await _service.GetByIdAsync(publisherId);
             if (publisherDetails == null) return View("Not Found");
 
             return View(publisherDetails);
