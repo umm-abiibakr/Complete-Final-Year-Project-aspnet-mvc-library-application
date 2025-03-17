@@ -127,7 +127,7 @@ namespace PrivateLibrary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int bookId, NewBookVM book)
         {
-            if (bookId != book.BookId) return View("NotFound");
+            if (bookId != book.BookId) return View("Not Found");
 
             if (!ModelState.IsValid)
             {
@@ -149,5 +149,26 @@ namespace PrivateLibrary.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Books/Delete
+        public async Task<IActionResult> Delete(int? bookId)
+        {
+            if (bookId == null) return View("Not Found");
+            var book = await _service.GetBookByIdAsync(bookId.Value);
+            if (book == null) return View("Not Found");
+            return View(book);
+        }
+
+        // POST: Books/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int bookId)
+        {
+            var book = await _service.GetBookByIdAsync(bookId);
+            if (book != null)
+            {
+                await _service.DeleteBookAsync(bookId);
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

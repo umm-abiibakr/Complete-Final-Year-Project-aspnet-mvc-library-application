@@ -101,7 +101,7 @@ namespace PrivateLibrary.Controllers
             var authorDetails = await _service.GetByIdAsync(authorId);
 
             // Check if details are null
-            if (authorDetails == null) return NotFound();
+            if (authorDetails == null) return View("Not Found");
 
             await _service.DeleteAsync(authorId);
 

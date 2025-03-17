@@ -93,7 +93,7 @@ namespace PrivateLibrary.Controllers
             var publisherDetails = await _service.GetByIdAsync(publisherId);
 
             // Check if details are null
-            if (publisherDetails == null) return NotFound();
+            if (publisherDetails == null) return View("Not Found");
 
             await _service.DeleteAsync(publisherId);
 
