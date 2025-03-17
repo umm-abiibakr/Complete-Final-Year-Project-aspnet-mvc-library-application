@@ -1,0 +1,50 @@
+﻿@model PrivateLibrary.Data.ViewModels.ReturnLoanVM
+
+@{
+    ViewData["Title"] = "Return Loan";
+}
+
+<h2>Confirm Return</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@((string)TempData["SuccessMessage"])</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@((string)TempData["ErrorMessage"])</div>
+}
+
+<h3>Are you sure you want to return this loan?</h3>
+<div>
+    <h4>Loan Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Borrower Email</dt>
+        <dd class="col-sm-10">@Model.BorrowerEmail</dd>
+    </dl>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Quantity</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoanItems)
+            {
+                <tr>
+                    <td>@item.BookTitle</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.DueDate.ToString("d")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="Return">
+        <input type="hidden" asp-for="LoanId" />
+        <input type="submit" value="Confirm Return" class="btn btn-primary" />
+        <a asp-action="Index" asp-controller="Books" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

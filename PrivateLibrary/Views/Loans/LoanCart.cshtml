@@ -1,41 +1,50 @@
-﻿<h2>Your Loan Cart</h2>
+﻿@model PrivateLibrary.Data.ViewModels.LoanCartVM
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Loan Cart ID</th>
-            <th>Books</th>
-            <th>Due Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="align-middle">
-                @(Model.LoanCart != null && !string.IsNullOrEmpty(Model.LoanCart.LoanCartId) ? Model.LoanCart.LoanCartId : "No Loan Cart ID")
-            </td>
-            <td class="align-middle">
-                @if (Model.LoanCartItems != null && Model.LoanCartItems.Count > 0)
-                {
-                    <ul style="list-style-type:none">
-                        @foreach (var item in Model.LoanCartItems)
-                        {
-                            <li>
-                                <div class="alert alert-info" role="alert">
-                                    <span class="badge bg-success">@item.Quantity</span> - @item.Book.Title
-                                </div>
-                            </li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p>You have no books in your cart.</p>
-                }
-            </td>
+@{
+    ViewData["Title"] = "Loan Cart";
+}
 
+<h2>@Model.Title</h2>
 
-            <td class="align-middle">@Model.DueDate.ToString("d")</td>
-        </tr>
-        <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Add a New Item</a>
-    </tbody>
-</table>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@((string)TempData["SuccessMessage"])</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@((string)TempData["ErrorMessage"])</div>
+}
+
+@if (Model.LoanCartItems != null && Model.LoanCartItems.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoanCartItems)
+            {
+                <tr>
+                    <td>@item.Book.Title</td>
+                    <td>@Model.DueDate.ToString("d")</td>
+                    <td>
+                        <a asp-action="RemoveFromLoanCart" asp-route-bookId="@item.Book.BookId" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Remove
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Proceed to Borrow</a>
+}
+else
+{
+    <p>The loan cart is empty.</p>
+}
+
+<a asp-controller="Books" asp-action="Index" class="btn btn-secondary">Back to Books</a>

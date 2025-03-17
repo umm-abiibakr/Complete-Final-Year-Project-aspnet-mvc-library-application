@@ -93,7 +93,21 @@ namespace PrivateLibrary.Data.Services
         }
 
 
-    }
+        public async Task DeleteBookAsync(int bookId)
+        {
+            var book = await _context.Books.FindAsync(bookId);
+            if (book != null)
+            {
+                // Remove related Books_Authors entries
+                var bookAuthors = _context.Books_Authors.Where(ba => ba.BookId == bookId);
+                _context.Books_Authors.RemoveRange(bookAuthors);
 
+                _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+            }
+
+        }
+
+    }
 }
 

@@ -12,6 +12,7 @@ namespace PrivateLibrary.Data.Services
         Task AddNewBookAsync(NewBookVM newBook);
 
         Task UpdateBookAsync(NewBookVM newBook);
+        Task DeleteBookAsync(int bookId);
 
     }
 }

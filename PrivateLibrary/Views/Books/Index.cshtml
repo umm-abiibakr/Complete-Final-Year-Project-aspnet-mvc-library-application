@@ -20,7 +20,6 @@
                                     </a>
                                 </h5>
                             </p>
-
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -38,9 +37,8 @@
                                 }
                                 else
                                 {
-                                <span class="badge bg-primary text-white">BORROWED</span>
+                                    <span class="badge bg-primary text-white">BORROWED</span>
                                 }
-
                             </p>
                         </div>
                     </div>
@@ -50,9 +48,21 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-bookId="@item.BookId">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <a asp-controller="Loans" asp-action="LoanCart" asp-route-id="@item.BookId" class=" btn btn-success text-white">
-                                    <i class="bi bi-plus"></i> Borrow
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-bookId="@item.BookId">
+                                    <i class="bi bi-trash"></i> Delete
                                 </a>
+                                @if (item.Status)
+                                {
+                                    <a asp-controller="Loans" asp-action="AddToLoanCart" asp-route-bookId="@item.BookId" class="btn btn-success text-white">
+                                        <i class="bi bi-plus"></i> Borrow
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary" disabled>
+                                        <i class="bi bi-plus"></i> Unavailable
+                                    </button>
+                                }
                             </p>
                         </div>
                     </div>
@@ -61,4 +71,5 @@
         </div>
     }
 </div>
+
 @await Html.PartialAsync("_CreateItem", "Books")
